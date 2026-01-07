@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gagana.expensetracker.dto.UserRequestDTO;
 import com.gagana.expensetracker.dto.UserResponseDTO;
 import com.gagana.expensetracker.entity.User;
 import com.gagana.expensetracker.exception.EmailAlreadyExistsExcepetion;
@@ -17,6 +18,7 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
 	
 //	public User createUser(User user) {
 //	 
@@ -32,15 +34,20 @@ public class UserService {
 //			return userOpt.get();
 //		}
 //		else {
-//			throw new UserNotFoundException("User Not found eith id: "+userId);
+//			throw new UserNotFoundException("User Not found with id: "+userId);
 //		}
 //		return userRepository.findById(userId).orElseThrow(()-> new UserNotFoundException("User not found exception with id:"+userId));
 //		
 //	}
-	public UserResponseDTO createUser(User user) {
-		if(userRepository.existsByUserEmail(user.getUserEmail())) {
+	public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
+		if(userRepository.existsByUserEmail(userRequestDTO.getUserEmail())) {
 			throw new EmailAlreadyExistsExcepetion("Email already Exists!");
 		}
+		
+		 User user=new User();
+		 user.setUserName(userRequestDTO.getUserName());
+		 user.setUserEmail(userRequestDTO.getUserEmail());
+		 user.setUserPassword(userRequestDTO.getUserPassword());
 		 user.setCreatedAt(LocalDateTime.now());
 		 User savedUser=userRepository.save(user);
 		 return mapToUserResponseDTO(savedUser);
@@ -59,5 +66,6 @@ public class UserService {
 				user.getCreatedAt()
 				);
 	}
+	
 
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gagana.expensetracker.dto.UserRequestDTO;
 import com.gagana.expensetracker.dto.UserResponseDTO;
 import com.gagana.expensetracker.entity.User;
 import com.gagana.expensetracker.service.UserService;
@@ -20,8 +21,8 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping
-	public UserResponseDTO createUser(@RequestBody User user) {
-		return userService.createUser(user);
+	public UserResponseDTO createUser(@RequestBody UserRequestDTO userRequestDTO) {
+		return userService.createUser(userRequestDTO);
 	}
 	
 	@GetMapping("/{id}")
