@@ -59,12 +59,15 @@ public class UserService {
 
 	}
 	private UserResponseDTO mapToUserResponseDTO(User user) {
-		return new UserResponseDTO(
-				user.getUserId(),
-				user.getUserName(),
-				user.getUserEmail(),
-				user.getCreatedAt()
-				);
+		UserResponseDTO dto = new UserResponseDTO();
+		dto.setUserId(user.getUserId());
+		dto.setUserId(user.getUserId());
+		dto.setUserName(user.getUserName());
+		dto.setUserEmail(user.getUserEmail());
+		dto.setCreatedAt(user.getCreatedAt());
+
+		return dto;
+				
 	}
 	
 
