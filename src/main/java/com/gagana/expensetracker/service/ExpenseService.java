@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.gagana.expensetracker.dto.ExpenseRequestDTO;
 import com.gagana.expensetracker.dto.ExpenseResponseDTO;
+import com.gagana.expensetracker.dto.ExpenseTotalResponseDTO;
 import com.gagana.expensetracker.entity.Expense;
 import com.gagana.expensetracker.entity.User;
 import com.gagana.expensetracker.exception.UserNotFoundException;
@@ -54,7 +55,29 @@ public class ExpenseService {
 	            .map(this::mapToExpenseResponseDTO)
 	            .toList();
 	}
+	public ExpenseTotalResponseDTO getTotalExpense(Long userId) {
+
+	    userRepository.findById(userId)
+	            .orElseThrow(() ->
+	                    new UserNotFoundException("User not found with id: " + userId)
+	            );
+
+	    Double total = expenseRepository.getTotalExpenseByUserId(userId);
+
+	    return new ExpenseTotalResponseDTO(total);
+	}
 	
+	public ExpenseTotalResponseDTO getMonthlyExpense(Long userId, int year, int month) {
+
+	    userRepository.findById(userId)
+	            .orElseThrow(() ->
+	                    new UserNotFoundException("User not found with id: " + userId)
+	            );
+
+	    Double total = expenseRepository.getMonthlyExpense(userId, year, month);
+
+	    return new ExpenseTotalResponseDTO(total);
+	}
 	private ExpenseResponseDTO mapToExpenseResponseDTO(Expense expense) {
 		  return new ExpenseResponseDTO(
 		            expense.getExpenseID(),
@@ -65,4 +88,6 @@ public class ExpenseService {
 		            expense.getUser().getUserId()
 		    );
 	}
+	
+	
 }

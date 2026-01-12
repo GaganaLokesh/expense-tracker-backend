@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gagana.expensetracker.dto.ExpenseRequestDTO;
 import com.gagana.expensetracker.dto.ExpenseResponseDTO;
+import com.gagana.expensetracker.dto.ExpenseTotalResponseDTO;
 
 
 @RestController
@@ -31,6 +32,20 @@ public class ExpenseController {
 	@GetMapping("/user/{userId}")
 	public List<ExpenseResponseDTO> getExpensesByUser(@PathVariable Long userId) {
 	    return expenseService.getExpensesByUser(userId);
+	}
+	
+	@GetMapping("/user/{userId}/total")
+	public ExpenseTotalResponseDTO getTotalExpense(@PathVariable Long userId) {
+	    return expenseService.getTotalExpense(userId);
+	}
+	
+	@GetMapping("/user/{userId}/month/{year}/{month}")
+	public ExpenseTotalResponseDTO getMonthlyExpense(
+	        @PathVariable Long userId,
+	        @PathVariable int year,
+	        @PathVariable int month) {
+
+	    return expenseService.getMonthlyExpense(userId, year, month);
 	}
 
 
