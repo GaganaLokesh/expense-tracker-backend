@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gagana.expensetracker.dto.UserRequestDTO;
 import com.gagana.expensetracker.dto.UserResponseDTO;
-import com.gagana.expensetracker.entity.User;
 import com.gagana.expensetracker.service.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
@@ -21,7 +22,7 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping
-	public UserResponseDTO createUser(@RequestBody UserRequestDTO userRequestDTO) {
+	public UserResponseDTO createUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
 		return userService.createUser(userRequestDTO);
 	}
 	
