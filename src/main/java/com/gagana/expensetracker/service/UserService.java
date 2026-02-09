@@ -3,6 +3,7 @@ package com.gagana.expensetracker.service;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gagana.expensetracker.dto.UserRequestDTO;
@@ -17,6 +18,9 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	
 //	public User createUser(User user) {
@@ -46,7 +50,7 @@ public class UserService {
 		 User user=new User();
 		 user.setUserName(userRequestDTO.getUserName());
 		 user.setUserEmail(userRequestDTO.getUserEmail());
-		 user.setUserPassword(userRequestDTO.getUserPassword());
+		 user.setUserPassword(passwordEncoder.encode( userRequestDTO.getUserPassword()));
 		 user.setCreatedAt(LocalDateTime.now());
 		 User savedUser=userRepository.save(user);
 		 return mapToUserResponseDTO(savedUser);
